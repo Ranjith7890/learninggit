@@ -1,2 +1,3 @@
 manual 1 by ranjith
 manual 2 by sanjay
+manual 3 by rakesh
