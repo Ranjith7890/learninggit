@@ -1,0 +1,83 @@
+select *from dept
+where deptno not in (select deptno from emp);
+
+select ename,job from emp
+where emp.mgr is null;
+
+select ename, job,comm  from emp,dept
+where dept.loc = 'new york' and emp.comm > 1000;
+
+select count(*) as 'employes in loaction',loc from emp,dept 
+where emp.deptno=dept.deptno and dept.loc='chicago' 
+group by loc;
+
+ select ename ,loc from emp,dept
+where emp.deptno=dept.deptno and dept.loc='chicago';
+
+select ename,loc from emp,dept
+where emp.deptno=dept.deptno
+order by loc;
+
+select	count( distinct dname) as 'total departments',count(distinct empno) as'total employes'
+from emp ,dept;
+
+
+select distinct e.ename as ename from emp as e, emp as m 
+where e.mgr=m.empno
+and e.hiredate<m.hiredate;
+
+select count(job)as ' managers' from emp
+where emp.job='manager'; 
+
+select ename,job as 'title' from emp
+where emp.mgr is null;
+
+select ename,deptno from emp
+where emp.ename='smith';
+
+select * from emp
+where emp.job='salesman' and emp.deptno not in(select deptno from dept where dept.loc='boston');
+
+select ename, loc from emp,dept
+where emp.deptno=dept.deptno;
+
+select * from emp
+where emp.job='salesman' and emp.sal < (select sal from emp where emp.ename='miller');
+
+select * from emp
+where emp.deptno=(select deptno from dept where dept.loc='chicago');
+
+select ename,sal  from emp
+where sal>(select min(sal) from emp 
+           where emp.job='manager');
+
+select ename,job from emp  
+where emp.deptno = (select deptno from dept where dept.dname='accounting');
+
+select empno,ename,mgr from emp
+where emp.job='manager';
+
+select ename,
+(case
+ when sal = any (select sal
+ from emp
+ where sal>1000) then sal  
+ when sal = any (select sal
+ from emp
+ where sal<1000) then '1000' end) as 'status-result'
+ from emp
+ where  emp.job != 'salesman';
+
+
+select ename, sal,
+(case
+when sal = any (select sal
+from emp
+where 1000>sal) then ' low sal'
+when sal = any (select sal
+from emp
+where sal between 1000 and 2500) then 'medium sal'
+when sal = any (select sal
+from emp
+where 2500<sal) then 'high sal' end) as 'range of sal'
+from emp;
